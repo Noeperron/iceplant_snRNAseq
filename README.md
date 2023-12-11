@@ -17,4 +17,5 @@ In this repository, you will find the source code and instructions to reproduce 
 
 
 
-
+R version 4.2.2
+macOS 13.2.1
