@@ -10,15 +10,10 @@ library(tidyr)
 library(tidyverse)
 
 #Data without doublets
-D8DS <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D8DS")
-D8DC <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D8DC")
-D8LS <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D8LS")
-D8LC <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D8LC")
-D21DS <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D21DS")
-D21DC <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D21DC")
-D21LS <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D21LS")
-D21LC <- Read10X(data.dir = "/Users/herve/Desktop/Seurat/data_cleaned/D21LC")
-
+D8DS <- Read10X(data.dir = "/data_cleaned/D8DS")
+D8DC <- Read10X(data.dir = "/data_cleaned/D8DC")
+D8LS <- Read10X(data.dir = "/data_cleaned/D8LS")
+D8LC <- Read10X(data.dir = "/data_cleaned/D8LC")
 
 #########Create seurat objects##########
 
@@ -26,20 +21,11 @@ D8DS <- CreateSeuratObject(counts = D8DS, project = "Dusk Salt", min.cells = 3)
 D8DC <- CreateSeuratObject(counts = D8DC, project = "Dusk Control", min.cells = 3)
 D8LS <- CreateSeuratObject(counts = D8LS, project = "Dawn Salt", min.cells = 3)
 D8LC <- CreateSeuratObject(counts = D8LC, project = "Dawn Control", min.cells = 3)
-D21DS <- CreateSeuratObject(counts = D21DS, project = "D21 - Dark Salt", min.cells = 3)
-D21DC <- CreateSeuratObject(counts = D21DC, project = "D21 - Dark Control", min.cells = 3)
-D21LS <- CreateSeuratObject(counts = D21LS, project = "D21 - Light Salt", min.cells = 3)
-D21LC <- CreateSeuratObject(counts = D21LC, project = "D21 - Light Control", min.cells = 3)
-
 
 VlnPlot(D8DS, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
 VlnPlot(D8DC, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
 VlnPlot(D8LS, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
 VlnPlot(D8LC, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
-VlnPlot(D21DS, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
-VlnPlot(D21DC, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
-VlnPlot(D21LS, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
-VlnPlot(D21LC, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
 
 ####################################
 
@@ -48,28 +34,15 @@ D8DC <- subset(D8DC, subset = nFeature_RNA > 460)
 D8LS <- subset(D8LS, subset = nFeature_RNA > 330)
 D8LC <- subset(D8LC, subset = nFeature_RNA > 500)
 
-D21DS <- subset(D21DS, subset = nFeature_RNA > 200)
-D21DC <- subset(D21DC, subset = nFeature_RNA > 200)
-D21LS <- subset(D21LS, subset = nFeature_RNA > 200)
-D21LC <- subset(D21LC, subset = nFeature_RNA > 200)
-
 D8DS <- NormalizeData(D8DS)
 D8DC <- NormalizeData(D8DC)
 D8LS <- NormalizeData(D8LS)
 D8LC <- NormalizeData(D8LC)
-D21DS <- NormalizeData(D21DS)
-D21DC <- NormalizeData(D21DC)
-D21LS <- NormalizeData(D21LS)
-D21LC <- NormalizeData(D21LC)
 
 D8DS <- FindVariableFeatures(D8DS, selection.method = "vst", nfeatures = 2000)
 D8DC <- FindVariableFeatures(D8DC, selection.method = "vst", nfeatures = 2000)
 D8LS <- FindVariableFeatures(D8LS, selection.method = "vst", nfeatures = 2000)
 D8LC <- FindVariableFeatures(D8LC, selection.method = "vst", nfeatures = 2000)
-D21DS <- FindVariableFeatures(D21DS, selection.method = "vst", nfeatures = 2000)
-D21DC <- FindVariableFeatures(D21DC, selection.method = "vst", nfeatures = 2000)
-D21LS <- FindVariableFeatures(D21LS, selection.method = "vst", nfeatures = 2000)
-D21LC <- FindVariableFeatures(D21LC, selection.method = "vst", nfeatures = 2000)
 
 ifnb.list <- c(D8DS, D8DC, D8LC, D8LS)
 
