@@ -29,10 +29,10 @@ VlnPlot(D8LC, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
 
 ####################################
 
-D8DS <- subset(D8DS, subset = nFeature_RNA > 230)
-D8DC <- subset(D8DC, subset = nFeature_RNA > 460)
-D8LS <- subset(D8LS, subset = nFeature_RNA > 330)
-D8LC <- subset(D8LC, subset = nFeature_RNA > 500)
+D8DS <- subset(D8DS, subset = nFeature_RNA > 230) # Based on the results of the emtpyDrops() function specific to this sample
+D8DC <- subset(D8DC, subset = nFeature_RNA > 460) # Based on the results of the emtpyDrops() function specific to this sample
+D8LS <- subset(D8LS, subset = nFeature_RNA > 330) # Based on the results of the emtpyDrops() function specific to this sample
+D8LC <- subset(D8LC, subset = nFeature_RNA > 500) # Based on the results of the emtpyDrops() function specific to this sample
 
 D8DS <- NormalizeData(D8DS)
 D8DC <- NormalizeData(D8DC)
@@ -65,13 +65,7 @@ datasets.combined <- FindNeighbors(datasets.combined, reduction = "pca", dims = 
 datasets.combined <- FindClusters(datasets.combined, resolution = 0.55) #0.55 gives 16 clusters
 DefaultAssay(datasets.combined) <- "RNA"
 
-#saveRDS(datasets.combined, file="rds_files/D8_Nodoublets_WithoutChloroplasts_0.55.rds")
-
-datasets.combined <- readRDS("rds_files/D8_Nodoublets_WithoutChloroplasts_0.55.rds")
-datasets.combined <- readRDS("rds_files/OnlyControls_Split.rds")
-datasets.combined <- readRDS("rds_files/OnlySalts_Split.rds")
-datasets.combined <- readRDS("rds_files/OnlyMesophyllClusters.rds")
-
+saveRDS(datasets.combined, file="rds_files/IcePlant_res_0.55.rds")
 
 #(Optional) Select only some clusters for graphs 
 to_select <- c(0,1,3,5,6,15)
@@ -103,7 +97,7 @@ ggplot2::ggsave(filename = paste0("images/Sample_proportion.png"),
                 units="cm",
                 bg = "#FFFFFF")
 
-ggplot2::ggsave(filename = paste0("images/UMAP_OnlyMesophyll.png"),
+ggplot2::ggsave(filename = paste0("images/UMAP.png"),
                 p2,
                 height=20,
                 width=20,
@@ -111,7 +105,7 @@ ggplot2::ggsave(filename = paste0("images/UMAP_OnlyMesophyll.png"),
                 units="cm",
                 bg = "#FFFFFF")
 
-ggplot2::ggsave(filename = paste0("images/UMAP_OnlyMesophyll_per_sample.png"),
+ggplot2::ggsave(filename = paste0("images/UMAP_per_sample.png"),
                 p3,
                 height=10,
                 width=35,
@@ -122,21 +116,10 @@ ggplot2::ggsave(filename = paste0("images/UMAP_OnlyMesophyll_per_sample.png"),
 #Get number of cells per cluster and per sample of origin
 Nb_cells_per_cluster <- table(datasets.combined$orig.ident, datasets.combined@meta.data$seurat_clusters)
 
-write.csv(Nb_cells_per_cluster, file = "Nb_cells_per_cluster_NoDoublets.csv", append = FALSE, quote = TRUE,
+write.csv(Nb_cells_per_cluster, file = "Nb_cells_per_cluster.csv", append = FALSE, quote = TRUE,
           row.names = TRUE,
           col.names = TRUE)
 
-#Identify conserved cell type markers for one cluster
-
-C6_markers <- FindConservedMarkers(datasets.combined, 
-                                   ident.1 = 4, #Change to cluster number here
-                                   grouping.var = "orig.ident", 
-                                   verbose = FALSE)
-
-
-write.csv(C6_markers, file = "C4_conserved_markers.csv", append = FALSE, quote = TRUE,
-          row.names = TRUE,
-            col.names = TRUE)
 
 #find markers for every cluster compared to all remaining cells, report only the positive ones
 all.markers <- FindAllMarkers(datasets.combined, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
@@ -144,29 +127,29 @@ all.markers %>%
   group_by(cluster) %>%
   slice_max(n = 2, order_by = avg_log2FC)
 
-write.csv(all.markers, file = "All_conserved_markers_res_0.5.csv", append = FALSE, quote = TRUE,
+write.csv(all.markers, file = "All_conserved_markers.csv", append = FALSE, quote = TRUE,
           row.names = TRUE,
           col.names = TRUE)
 
-#Top 50 markers of each cluster
+#Top 50 markers in each cluster
 top50 <- all.markers %>%
   group_by(cluster) %>%
   top_n(n = 50, wt = avg_log2FC)
 
-write.csv(top50, file = "SplitSamples/D8DC/top50_per_cluster.csv", append = FALSE, quote = TRUE,
+write.csv(top50, file = "top50_gene_per_cluster.csv", append = FALSE, quote = TRUE,
           row.names = TRUE,
           col.names = TRUE)
 
 #Visualize expression markers
 ####Heatmaps####
 
-Markers <- read.csv("ListsKnownMarkers/Annotation.csv")
+Markers <- read.csv("ListsKnownMarkers.csv") # Input a list of known markers with the gene ID in the first column
 Markers <- Markers[,1]
 
 datasets.combined_scaled <- ScaleData(datasets.combined, features = rownames(datasets.combined), assay="RNA", verbose = FALSE)
 heatmap <- DoHeatmap(datasets.combined_scaled, slot="scale.data", features=Markers, assay = "RNA")
 
-ggplot2::ggsave(filename = paste0("images/Heatmaps/C3+CAM.png"),
+ggplot2::ggsave(filename = paste0("images/Heatmaps.png"),
                 heatmap,
                 height=20,
                 width=50,
@@ -177,8 +160,6 @@ ggplot2::ggsave(filename = paste0("images/Heatmaps/C3+CAM.png"),
 ####Dot plots######
 # Define an order of cluster identities
 my_levels <- c(0,1,6,5,3,15,7,8,9,14,2,11,16,10,12,13,4)
-my_levels <- c(0,1,6,5,3,15)
-
 
 datasets.combined$seurat_clusters <- factor(
   x = datasets.combined$seurat_clusters, 
@@ -194,10 +175,10 @@ d1 <- DotPlot(object = datasets.combined, features = Markers,
   coord_flip() + 
   theme(legend.position = "top") # Moves the legend to the top
 
-ggplot2::ggsave(filename = paste0("images/DotPlots/Dotplot_Annotation.png"),
+ggplot2::ggsave(filename = paste0("images/DotPlots.png"),
                 d1,
-                height=45, #For CAM and circadian: 25 #For annotation:45
-                width=28,  #For CAM and circadian: 20 #For annotation:34
+                height=45, 
+                width=28,  
                 dpi=300,
                 units="cm",
                 bg = "#FFFFFF")
@@ -222,7 +203,7 @@ v1 <- VlnPlot(
   same.y.lims = TRUE
 )
 
-ggplot2::ggsave(filename = paste0("OnlySalts/images/ViolinPlots/Violin_CAM_salts.png"),
+ggplot2::ggsave(filename = paste0("/images/Violin_CAM_salts.png"),
                 v1,
                 height=8,
                 width=50,
@@ -255,23 +236,6 @@ ggplot2::ggsave(filename = paste0("images/FeaturePlots/PPCK1_by_sample.png"),
                 units="cm",
                 bg = "#FFFFFF")
 
-# Visualize co-expression of two features simultaneously
-f2 <- FeaturePlot(datasets.combined,
-                  features = c("Mcr-009574", "Mcr-002592"), 
-                  pt.size = 2, 
-                  blend=TRUE, 
-                  order=TRUE, 
-                  cols = c("lightgrey", "red", "blue"),
-                  blend.threshold=0.5,
-                  interactive=FALSE)
-
-ggplot2::ggsave(filename = paste0("images/FeaturePlotsCoExpression/PPCK1_and_FULL.png"),
-                f2,
-                height=15,
-                width=40,
-                dpi=300,
-                units="cm",
-                bg = "#FFFFFF")
 
 
 #DEG between two specific clusters
