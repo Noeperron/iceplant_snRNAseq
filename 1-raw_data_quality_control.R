@@ -17,7 +17,7 @@ D8DC <- Read10X(data.dir = "/Raw_sc_data/D8DC/")
 D8LS <- Read10X(data.dir = "/Raw_sc_data/D8LS/")
 D8LC <- Read10X(data.dir = "/Raw_sc_data/D8LC/")
 
-#Create a new dgCMatrix without the genes to remove
+#Create a new dgCMatrix without the genes to remove (chloroplastic genes)
 genes_to_remove <- read.csv('List_of_genes_to_remove.csv', header = FALSE)
 genes_to_remove <- genes_to_remove$V1
 
