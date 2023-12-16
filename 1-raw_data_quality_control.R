@@ -47,11 +47,6 @@ VlnPlot(D8LC, features = c("nFeature_RNA", "nCount_RNA"), ncol = 2)
 
 ####################################
 
-D8DS <- subset(D8DS, subset = nFeature_RNA > 230)
-D8DC <- subset(D8DC, subset = nFeature_RNA > 460)
-D8LS <- subset(D8LS, subset = nFeature_RNA > 330)
-D8LC <- subset(D8LC, subset = nFeature_RNA > 500)
-
 D8DS <- NormalizeData(D8DS)
 D8DC <- NormalizeData(D8DC)
 D8LS <- NormalizeData(D8LS)
