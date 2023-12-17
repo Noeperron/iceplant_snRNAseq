@@ -72,7 +72,7 @@ icMat <- evaluateK(counts = counts,
                    nGenes = 200,
                    verbose = T)
 
-ggplot2::ggsave("Reclustering_Mesophyll/Trajectory/images/Tradeseq_knots.png",
+ggplot2::ggsave("/Trajectory/images/Tradeseq_knots.png",
                 icMat,
                 height=30,
                 width=20,
@@ -105,7 +105,7 @@ feat_importances$fdr <- stats::p.adjust(feat_importances$pvalue,
 feat_importances$genes <- rownames(feat_importances)
 feat_importances2 <- feat_importances[ ,c(ncol(feat_importances), 1:( ncol(feat_importances) - 1)) ]
 
-foldername <- "Reclustering_Mesophyll/Trajectory/Markers/"
+foldername <- "/Trajectory/Markers/"
 system( paste0("mkdir -p ", foldername) )
 write.table( feat_importances2,
              paste0(foldername, "Association_Test_Markers.tsv"),
@@ -171,15 +171,15 @@ plotGeneCount(sds2, counts, gene = rownames(earlyDERes)[oEarly][1])
 
 ###################### Plot gene expression along lineages ######################
 
-#oStart <- order(startRes$waldStat, decreasing = TRUE) #These two lines are for if i want to plot the expression of the most variable gene according to given test. Change startRes if want ot plot for a different test.
-#sigGeneStart <- names(sce_fitted)[oStart[1]]
+######## For a single gene ######## 
+
 sigGeneStart <- "Mcr-001290"
 smoother <- plotSmoothers(sce_fitted, counts, gene = sigGeneStart)
 feature <- FeaturePlot(cds, features = sigGeneStart, pt.size=0.7) 
 UMAP <- plotGeneCount(sds2, counts, gene = sigGeneStart)
 
 
-ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/LHY_wide/smoother.png"),
+ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/sigGeneStart/smoother.png"),
                 smoother,
                 height=15,
                 width=40,
@@ -187,7 +187,7 @@ ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/LHY
                 units="cm",
                 bg = "#FFFFFF")
 
-ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/PPCK1b/feature.png"),
+ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/sigGeneStart/feature.png"),
                 feature,
                 height=15,
                 width=20,
@@ -196,7 +196,7 @@ ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/PPC
                 bg = "#FFFFFF")
 
 
-ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/PPCK1b/UMAP.png"),
+ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/sigGeneStart/UMAP.png"),
                 UMAP,
                 height=15,
                 width=20,
@@ -207,7 +207,7 @@ ggplot2::ggsave(filename = paste0("Trajectory_C6/Expression_along_trajectory/PPC
 ######## For a list of genes ######## 
 
 # Read the gene list and corresponding names from the CSV file
-gene_data <- read.csv("ListsKnownMarkers/DEcircardian_C3vsCAM_trajectories.csv")
+gene_data <- read.csv("ListsKnownMarkers.csv")
 gene_list <- gene_data[,1]
 gene_names <- gene_data[,2]
 
@@ -223,7 +223,7 @@ for (i in seq_along(gene_list)) {
   
   # Save the plots
   ggsave(
-    filename = paste0("Trajectory_C6/Expression_along_trajectory/DECircadian/", gene_name, "/smoother.png"),
+    filename = paste0("Trajectory_C6/Expression_along_trajectory/", gene_name, "/smoother.png"),
     plot = smoother,
     height = 15,
     width = 15,
@@ -233,7 +233,7 @@ for (i in seq_along(gene_list)) {
   )
   
   ggsave(
-    filename = paste0("Trajectory_C6/Expression_along_trajectory/DECircadian/", gene_name, "/feature.png"),
+    filename = paste0("Trajectory_C6/Expression_along_trajectory/", gene_name, "/feature.png"),
     plot = feature,
     height = 15,
     width = 20,
@@ -243,7 +243,7 @@ for (i in seq_along(gene_list)) {
   )
   
   ggsave(
-    filename = paste0("Trajectory_C6/Expression_along_trajectory/DECircadian/", gene_name, "/UMAP.png"),
+    filename = paste0("Trajectory_C6/Expression_along_trajectory/", gene_name, "/UMAP.png"),
     plot = UMAP,
     height = 15,
     width = 20,
@@ -253,51 +253,3 @@ for (i in seq_along(gene_list)) {
   )
 
 }
-  
-  ### Save all smoother plots in one big image ###
-  
-  # Load necessary library
-  library(gridExtra)
-  library(ggplot2)
-  
-  # Read the gene list and corresponding names from the CSV file
-  gene_data <- read.csv("ListsKnownMarkers/DEcircardian_C3vsCAM_trajectories.csv")
-  gene_list <- gene_data[,1]
-  gene_names <- gene_data[,2]
-  
-  # Initialize a list to store plots
-  smoother_plots <- list()
-  
-  # Loop over each gene and its corresponding name
-  for (i in seq_along(gene_list)) {
-    gene <- gene_list[i]
-    gene_name <- gene_names[i]
-    
-    # Perform your analyses
-    smoother <- plotSmoothers(sce_fitted, counts, gene = gene)
-    
-    # Add a title to the plot with the gene ID
-    smoother_with_title <- smoother + ggtitle(gene)
-    
-    # Add the smoother plot with title to the list
-    smoother_plots[[i]] <- smoother_with_title
-  }
-  
-  # Define the layout of the grid
-  ncol <- 3 # Number of columns (adjust as needed)
-  nrow <- 2 # Number of rows (adjust as needed)
-  
-  # Combine all smoother plots into one big plot
-  combined_plot <- do.call(gridExtra::grid.arrange, c(smoother_plots, ncol = ncol, nrow = nrow))
-  
-  # Save the combined plot
-  ggsave(
-    filename = "Trajectory_C6/Expression_along_trajectory/0-DECircadian/0-combined_smoother_plots.png",
-    plot = combined_plot,
-    height = 15, # specify height
-    width = 35,  # specify width
-    dpi = 300,
-    units = "cm",
-    bg = "#FFFFFF"
-  )
-  
