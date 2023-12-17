@@ -2,7 +2,7 @@ import csv
 
 # Open the CSV file
 
-file='DEG_salt_vs_control.csv'
+file='file.csv'
 
 with open(file, 'r') as csv_file:
     reader = csv.reader(csv_file)
@@ -17,7 +17,7 @@ with open(file, 'r') as csv_file:
         gene_id = row[0]
 
         # Open the FASTA file
-        with open('ICE_V1_POLISHED_MAKER2_Models.proteins.fasta', 'r') as fasta_file:
+        with open('IcePlant_ProteinSequence.fasta', 'r') as fasta_file:
             fasta_lines = fasta_file.readlines()
 
             # Search for the corresponding gene_id in the FASTA file
