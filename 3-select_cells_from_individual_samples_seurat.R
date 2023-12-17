@@ -5,10 +5,10 @@ library(patchwork)
 library(metap)
 library(ggplot2)
 
-datasets.combined <- readRDS("rds_files/D8_Nodoublets_WithoutChloroplasts_0.5.rds")
+datasets.combined <- readRDS("rds_files/D8_Nodoublets_WithoutChloroplasts_0.55.rds")
 
 # Define the sample name you want to keep
-samples_to_keep <- c("D8 - Dark Control")
+samples_to_keep <- c("D8 - Dark Control", "D8 - Dark Salt")
 
 # Filter the cells from the specified sample
 datasets.combined_filtered <- subset(datasets.combined, orig.ident == samples_to_keep)
@@ -22,5 +22,5 @@ clusters <- Idents(datasets.combined_filtered)
 
 DimPlot(datasets.combined_filtered, reduction = "umap", label = TRUE, repel = TRUE)
 
-saveRDS(datasets.combined_filtered, file="rds_files/D8DC.rds")
+saveRDS(datasets.combined_filtered, file="rds_files/OnlyControls_Split.rds")
 
