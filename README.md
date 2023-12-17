@@ -19,7 +19,7 @@ This repository contains a series of R scripts used for comprehensive analysis o
 
 ### Installing R packages used in the analyses.
 
-All analyses were conducted using R v.4.2.2 in macOS 13.2.1 A list of necessary R packages, and the commands to install them, can be found in the script *_0-InstallPackages.R_*.
+All analyses were conducted using R v.4.2.2 and Python3 in macOS 13.2.1 A list of necessary R packages, and the commands to install them, can be found in the script *_0-InstallPackages.R_*.
 
 Execute the command below to run the script:
 
@@ -50,7 +50,7 @@ Rscript 5b-Different_expression_patterns_across_lineages.R
 Rscript 5c-Plot_expression_along_trajectories.R
 ```
 
-### 1-Data Pre-processing
+### 1 - Data Pre-processing
 
 1a. Raw Data Quality Control (1a-Raw_data_quality_control.R)
 
@@ -64,7 +64,7 @@ Purpose: Detect and exclude empty droplets from the datasets, an essential step 
 
 Purpose: Identify and remove doublets (multiple cells captured in a single droplet) from each sample, ensuring data quality and accuracy. Writes new 10X files from the cleaned objects to input in the downstream analyses.
 
-### 2-Data Processing and Integration
+### 2 - Data Processing and Integration
 
 2a. Seurat Data Processing Integration (2a-Seurat_data_processing_integration.R)
 
@@ -75,7 +75,7 @@ Purpose: Further process the cleaned data, including integration and normalizati
 Purpose: Calculate and analyze the number of cells present in each identified cluster and respective sample. Output can be used to make the barplot presented in Figure 2C.
 
 
-### 3-Marker Identification and Visualization
+### 3 - Marker Identification and Visualization
 
 3a. Marker Identification (3a-Marker_identification.R)
 
@@ -85,7 +85,7 @@ Purpose: Identify marker genes for various cell clusters to characterize differe
 
 Purpose: Visualize the expression of marker genes across different clusters or cell types, often using heatmaps.
 
-### 4-Differential Gene Expression Analysis
+### 4 - Differential Gene Expression Analysis
 
 4a. DGE Between Clusters (4a-DGE_between_clusters.R)
 
@@ -108,3 +108,18 @@ Purpose: Identification of genes presenting drastically different expression pat
 5c. Plot Expression Along Trajectories (5c-Plot_expression_along_trajectories.R)
 
 Purpose: Visualize gene expression along identified cell trajectories. Inputs can be a single gene or a list of genes provided in the first column of a .csv file.
+
+## Add gene names to the output files
+
+Some of the scripts mentioned above generate lists of genes with the gene IDs in the first column as output files. To add a column containing the gene names to these files, the "AddGeneName.py" script can be used. 
+
+### Usage
+
+Replace "file.csv" by the name of the input .csv file you would like to append gene names to. 
+The script must be ran in a directory containing the protein sequence file of the ice plant genome presented in the Perron et al. article.
+To run the script, execute the command below:
+
+```sh
+Python3 AddGeneName.py
+```
+
