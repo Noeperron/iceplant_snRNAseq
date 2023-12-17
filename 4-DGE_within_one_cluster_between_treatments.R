@@ -37,21 +37,3 @@ for (cluster_id in 0:16) {
               row.names = TRUE)
   }
 }
-
-
-##### Now compare selected clusters
-
-# Find cells in the cluster and that are salt-treated
-salt_cells <- WhichCells(seurat_object, 
-                         expression = salt_treatment & seurat_object@meta.data$seurat_clusters == c(0,1,3,5,6,15))
-
-# Find cells in the cluster and that are control
-control_cells <- WhichCells(seurat_object, 
-                            expression = control_treatment & seurat_object@meta.data$seurat_clusters == c(0,1,3,5,6,15))
-
-# Perform differential expression analysis
-DGE <- FindMarkers(seurat_object, ident.1 = salt_cells, ident.2 = control_cells)
-
-write.csv(DGE, 
-          file = paste0("DGE/NoMeso_Salt_vs_Control/NoMeso_DEG_salt_vs_control.csv"),
-          row.names = TRUE)
