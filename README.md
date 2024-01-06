@@ -1,14 +1,79 @@
-<p align="center">
-  <!-- <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a> -->
+  <p align="center">
+    <h3 align="center"> Part I: <i> Mesembryanthemum crystallinum </i> (Ice Plant) Genome Analysis Pipeline
+</h3>
+  </p>
 
-  <!-- <h2 align="center">Asc-Seurat</h2> -->
+All single-nuclei RNA sequencing data analyses presented in the "Mesophyll-Specific Circadian Dynamics of CAM Induction in the Ice Plant Unveiled by Single-Cell Transcriptomics" manuscript were performed using the ice plant genome sequence and annotation of the Kirst lab at the University of Florida.
+The IcePlantGenome.sh script included in this repository allows for reproduction of the workflow used for assembling, polishing and annotating the Ice Plant genome.
+
+Before running the script, ensure you have downloaded the raw genome files from the NCBI SRA database using the provided accession numbers (to be added once the paper is published). Also, install the following software packages as per their documentation:
+
+### Software pacckages and versions used for assembly, polishing, and quality control
+
+nanoFilt/2.7.1
+
+flye/2.9.3
+
+pilon/1.24 
+
+bowtie2/2.4.5 
+
+samtools/1.18 
+
+busco/5.3.0 
+
+assembly-stats/1.0.1
+
+### Software pacckages used for annotation
+
+maker/2.31.6
+
+repeatmodeler/2.0
+
+ltr_finder/1.07
+
+ltrretriever/2.5
+
+pacbio/8.0.0
+
+isoseq3/3.2.2
+
+lima/2.7.1
+
+augustus/3.4.0
+
+gff3toolkit/2.0.3
+
+iprscan/5.60
+
+ncbi_blast/2.14.1
+
+snap/2.0.3
+
+
+## Workflow Overview
+
+1. Read Filtering: The script begins by filtering raw nanopore reads using NanoFilt. This step includes removing reads shorter than 1000 bp, with an average quality score < Q10, and trimming the first 500 bp of each read.
+
+2. Genome Assembly: Flye is used to assemble the filtered nanopore reads, followed by creation of a draft assembly file (Assembly.fasta).
+
+3. Assembly Polishing: The draft assembly is polished using Pilon, which involves mapping Illumina short reads to the draft assembly using Bowtie2, and subsequent processing with Samtools.
+
+4. Assembly Metrics and Completeness: The polished assembly (IcePlantAssembly_Polished.fasta) is analyzed for assembly metrics using assembly-stats and genome completeness is assessed using BUSCO.
+
+5. Genome Annotation: The final assembly file is ready for annotation, performed using the MAKER2 pipeline.
+
+## Running the script
+
+```sh
+bash IcePlantGenome.sh
+```
+
+
 
   <p align="center">
-    <h3 align="center"> Scripts to reproduce the snRNA-seq analysis of <i> Mesembryanthemum crystallinum </i> leaves under various conditions</h3>
+    <h3 align="center"> Part II: Scripts to reproduce the snRNA-seq analysis of <i> Mesembryanthemum crystallinum </i> leaves under various conditions</h3>
   </p>
-</p>
 
 <!-- ABOUT THE PROJECT -->
 ## About the _M. crystallinum_ snRNA-seq analysis
