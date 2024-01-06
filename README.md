@@ -1,7 +1,5 @@
-  <p align="center">
-    <h3 align="center"> Part I: <i> Mesembryanthemum crystallinum </i> (Ice Plant) Genome Analysis Pipeline
-</h3>
-  </p>
+# Part I: <i> Mesembryanthemum crystallinum </i> (Ice Plant) Genome Analysis Pipeline
+
 
 All single-nuclei RNA sequencing data analyses presented in the "Mesophyll-Specific Circadian Dynamics of CAM Induction in the Ice Plant Unveiled by Single-Cell Transcriptomics" manuscript were performed using the ice plant genome sequence and annotation of the Kirst lab at the University of Florida.
 The IcePlantGenome.sh script included in this repository allows for reproduction of the workflow used for assembling, polishing and annotating the Ice Plant genome.
@@ -70,10 +68,7 @@ bash IcePlantGenome.sh
 ```
 
 
-
-  <p align="center">
-    <h3 align="center"> Part II: Scripts to reproduce the snRNA-seq analysis of <i> Mesembryanthemum crystallinum </i> leaves under various conditions</h3>
-  </p>
+# Part II: Scripts to reproduce the snRNA-seq analysis of <i> Mesembryanthemum crystallinum </i> leaves under various conditions
 
 <!-- ABOUT THE PROJECT -->
 ## About the _M. crystallinum_ snRNA-seq analysis
