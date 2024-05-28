@@ -160,8 +160,8 @@ Purpose: Identify modules of genes with similar expression profiles in the integ
 
 # Part III: Scripts to reproduce the bulk RNA-seq analysis of <i> Mesembryanthemum crystallinum </i> leaves under various conditions
 
-### 1 - Data Processing
-## Software pacckages used for RNA-seq data processing
+## 1 - Data Processing
+### Software pacckages used for RNA-seq data processing
 
 trimmomatic/0.39
 
@@ -173,7 +173,7 @@ samtools/1.19.2
 
 htseq/2.0.3
 
-## Workflow Overview
+### Workflow Overview
 
 This workflow outlines the steps for processing bulk RNA-Seq data, from trimming raw reads to generating a gene expression table. Ensure that all necessary raw genome and bulk RNA-Seq files are downloaded from the NCBI SRA database. Installation instructions for the software packages used in this analysis can be found in their respective documentation.
 
@@ -191,13 +191,13 @@ This workflow outlines the steps for processing bulk RNA-Seq data, from trimming
 
 7. Merging Expression Tables: Merge all gene expression files into a single table.
 
-## Running the script
+### Running the script
 
 ```sh
 bash 6a-BulkRNASeq_Processing.sh
 ```
 
-### 2 - Differential Expression analysis
+## 2 - Differential Expression analysis
 
 Differential Expression analysis of the bulk RNA-Seq data using edgeR
 
@@ -205,7 +205,7 @@ Differential Expression analysis of the bulk RNA-Seq data using edgeR
 6b-BulkRNASeq_Differential_Expression.R
 ```
 
-### 3 - Gene Regulatory Network Inference
+## 3 - Gene Regulatory Network Inference
 
 Gene Regulatory Network Inference at each time-point of the time-course bulk RNA-Seq data using GENIE3.
 
@@ -214,9 +214,7 @@ Gene Regulatory Network Inference at each time-point of the time-course bulk RNA
 ```
 
 
-
-
-## Add gene names to the output files
+# Add gene names to the output files
 
 Some of the scripts mentioned above generate lists of genes with the gene IDs in the first column as output files. To add a column containing the gene names to these files, the "AddGeneName.py" script can be used. 
 
