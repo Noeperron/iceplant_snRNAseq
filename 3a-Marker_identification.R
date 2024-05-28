@@ -1,5 +1,7 @@
 set.seed(3112)
 
+datasets.combined <- readRDS("rds_files/D8_Nodoublets_WithoutChloroplasts_0.55.rds")
+
 #find markers for every cluster compared to all remaining cells, report only the positive ones
 all.markers <- FindAllMarkers(datasets.combined, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
 all.markers %>%
