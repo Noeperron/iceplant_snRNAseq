@@ -6,7 +6,7 @@ The IcePlantGenome.sh script included in this repository allows for reproduction
 
 Before running the script, ensure you have downloaded the raw genome files from the NCBI SRA database using the provided accession numbers (to be added once the paper is published). Also, install the following software packages as per their documentation:
 
-### Software pacckages and versions used for assembly, polishing, and quality control
+### Software packages and versions used for assembly, polishing, and quality control
 
 nanoFilt/2.7.1
 
@@ -22,7 +22,7 @@ busco/5.3.0
 
 assembly-stats/1.0.1
 
-### Software pacckages used for annotation
+### Software packages used for annotation
 
 maker/2.31.6
 
@@ -47,7 +47,6 @@ iprscan/5.60
 ncbi_blast/2.14.1
 
 snap/2.0.3
-
 
 ## Workflow Overview
 
@@ -105,9 +104,7 @@ Rscript 3a-Marker_identification.R
 Rscript 3b-Visualization_marker_expression.R
 Rscript 4a-DGE_between_clusters.R
 Rscript 4b-DGE_within_one_cluster_between_treatments.R
-Rscript 5a-Trajectory_Inference_Slingshot_Tradeseq.R
-Rscript 5b-Different_expression_patterns_across_lineages.R
-Rscript 5c-Plot_expression_along_trajectories.R
+Rscript 5-hdWGCNA.R
 ```
 
 ### 1 - Data Pre-processing
@@ -155,19 +152,69 @@ Purpose: Perform differential gene expression analysis between different cell cl
 
 Purpose: Conduct differential expression analysis between the cells within a single cluster from the different experimental treatments (i.e. gene expression in cells originating from the control samples vs. salt-treated samples)
 
-### 5-Cell Trajectory Inference
+### 5 - hdWGCNA
 
-5a. Trajectory Inference Using Slingshot and tradeSeq (5a-Trajectory_Inference_Slingshot_Tradeseq.R)
+5. Co-expression analyses using high dimensional WGCNA (5-hdWGCNA.R)
 
-Purpose: Infer cellular trajectories, tracing transitions between different cell states. By default, reproduces the trajectory analysis with cluster 6 set as the starting point of the trajectory.
+Purpose: Identify modules of genes with similar expression profiles in the integrated snRNA-seq dataset.
 
-5b. Different expression patterns across trajectories (5b-Different_expression_patterns_across_lineages.R)
+# Part III: Scripts to reproduce the bulk RNA-seq analysis of <i> Mesembryanthemum crystallinum </i> leaves under various conditions
 
-Purpose: Identification of genes presenting drastically different expression patterns between the two trajectories.
+### 1 - Data Processing
+## Software pacckages used for RNA-seq data processing
 
-5c. Plot Expression Along Trajectories (5c-Plot_expression_along_trajectories.R)
+trimmomatic/0.39
 
-Purpose: Visualize gene expression along identified cell trajectories. Inputs can be a single gene or a list of genes provided in the first column of a .csv file.
+fastqc/0.12.1
+
+hisat2/2.2.1
+
+samtools/1.19.2
+
+htseq/2.0.3
+
+## Workflow Overview
+
+This workflow outlines the steps for processing bulk RNA-Seq data, from trimming raw reads to generating a gene expression table. Ensure that all necessary raw genome and bulk RNA-Seq files are downloaded from the NCBI SRA database. Installation instructions for the software packages used in this analysis can be found in their respective documentation.
+
+1. Read Trimming: Load the Trimmomatic module and trim the reads to remove adapters and low-quality bases.
+
+2. Quality Control: Load the FastQC module and generate quality control reports for the trimmed reads.
+
+3. Building Reference Index: Load the HISAT2 module and build the reference index using the genome and annotation files.
+
+4. Aligning RNA-Seq Reads: Create a directory for alignment results and run HISAT2 to align the trimmed reads to the reference genome.
+
+5. Converting SAM to BAM: Load the SAMtools module and convert SAM files to BAM format, then sort and index the BAM files.
+
+6. Estimating Gene Expression: Load the HTSeq module and run HTSeq-Count to estimate gene expression from the BAM files.
+
+7. Merging Expression Tables: Merge all gene expression files into a single table.
+
+## Running the script
+
+```sh
+bash 6a-BulkRNASeq_Processing.sh
+```
+
+### 2 - Differential Expression analysis
+
+Differential Expression analysis of the bulk RNA-Seq data using edgeR
+
+```sh
+6b-BulkRNASeq_Differential_Expression.R
+```
+
+### 3 - Gene Regulatory Network Inference
+
+Gene Regulatory Network Inference at each time-point of the time-course bulk RNA-Seq data using GENIE3.
+
+```sh
+7-GENIE3.R
+```
+
+
+
 
 ## Add gene names to the output files
 
