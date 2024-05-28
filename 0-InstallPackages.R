@@ -28,6 +28,9 @@ install.packages("scales")
 install.packages("utils") 
 install.packages("vroom") 
 install.packages("svglite") 
+install.packages("WGCNA") 
+install.packages("hdWGCNA") 
+
 
 # Packages from Bioconductor
 
@@ -37,10 +40,10 @@ if (!require("BiocManager", quietly = TRUE))
 BiocManager::install("scDblFinder") #Bioconductor
 BiocManager::install("scater") #Bioconductor
 BiocManager::install("DropletUtils") #Bioconductor
-BiocManager::install("slingshot") #Bioconductor
-BiocManager::install("tradeSeq") #Bioconductor
-BiocManager::install("SingleCellExperiment") #Bioconductor
+BiocManager::install(c("WGCNA", "igraph", "devtools", "GeneOverlap", "ggrepel", "UCell"))
 
 # Packages from GitHub
 
 remotes::install_github('chris-mcginnis-ucsf/DoubletFinder')
+devtools::install_github("NightingaleHealth/ggforestplot")
+devtools::install_github('smorabit/hdWGCNA', ref='dev')
