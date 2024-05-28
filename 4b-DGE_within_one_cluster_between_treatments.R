@@ -1,5 +1,7 @@
 set.seed(3112)
 
+seurat_obj <- readRDS("rds_files/D8_Nodoublets_WithoutChloroplasts_0.55.rds") 
+
 # Split integrated object into salt-treated and control subsets
 # Create logical vectors for treatments within the metadata
 seurat_object@meta.data$salt_treatment <- seurat_object@meta.data$orig.ident %in% c("D8 - Dark Salt", "D8 - Light Salt")
