@@ -202,7 +202,7 @@ bash 6a-BulkRNASeq_Processing.sh
 Differential Expression analysis of the bulk RNA-Seq data using edgeR
 
 ```sh
-6b-BulkRNASeq_Differential_Expression.R
+Rscript 6b-BulkRNASeq_Differential_Expression.R
 ```
 
 ## 3 - Gene Regulatory Network Inference
@@ -210,7 +210,7 @@ Differential Expression analysis of the bulk RNA-Seq data using edgeR
 Gene Regulatory Network Inference at each time-point of the time-course bulk RNA-Seq data using GENIE3.
 
 ```sh
-7-GENIE3.R
+Rscript 7-GENIE3.R
 ```
 
 
