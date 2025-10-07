@@ -1,7 +1,7 @@
 # Part I: <i> Mesembryanthemum crystallinum </i> (Ice Plant) Genome Analysis Pipeline
 
 
-All single-nuclei RNA sequencing data analyses presented in the "Mesophyll-Specific Circadian Dynamics of CAM Induction in the Ice Plant Unveiled by Single-Cell Transcriptomics" manuscript were performed using the ice plant genome sequence and annotation of the Kirst lab at the University of Florida.
+All single-nuclei RNA sequencing data analyses presented in the "Indirect Regulatory Mechanism Links Light Sensing to Metabolic Reprogramming in CAM Plants" manuscript were performed using the ice plant genome sequence and annotation of the Kirst lab at the University of Florida.
 The IcePlantGenome.sh script included in this repository allows for reproduction of the workflow used for assembling, polishing and annotating the Ice Plant genome.
 
 Before running the script, ensure you have downloaded the raw genome files from the NCBI SRA database using the provided accession numbers (to be added once the paper is published). Also, install the following software packages as per their documentation:
@@ -205,14 +205,11 @@ Differential Expression analysis of the bulk RNA-Seq data using edgeR
 Rscript 6b-BulkRNASeq_Differential_Expression.R
 ```
 
-## 3 - Gene Regulatory Network Inference
-
-Gene Regulatory Network Inference at each time-point of the time-course bulk RNA-Seq data using GENIE3.
+# Part IV: Scripts to reproduce the ampDAP-seq analysis
 
 ```sh
-Rscript 7-GENIE3.R
+bash 7-ampDAP_analysis.sh
 ```
-
 
 # Add gene names to the output files
 
